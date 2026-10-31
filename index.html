@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Réact+ | Aide à la décision agricole · NASA Space Apps 2026</title>
+    <link rel="stylesheet" href="style.css" />
+      <!-- La feuille CSS définit la mise en page et les styles de tous les blocs ci-dessous. -->
+  </head>
+  <body>
+    <!-- En-tête : marque et badge NASA; les classes brand-* et nasa-* sont mises en forme dans style.css. -->
+    <header>
+      <div class="brand">
+        <div class="brand-logo" aria-label="Logo Réact+">
+          <img class="brand-image" src="images-removebg-preview.png" alt="Emblème NASA" />
+          <span>Réact+</span>
+        </div>
+        <div class="brand-title">
+          <h1>Système d’aide à la décision agricole</h1>
+          <p>Ancrage local Togo · Capteurs IoT et données satellite</p>
+        </div>
+      </div>
+      <div class="nasa-badge"><span class="nasa-dot"></span>Données ouvertes NASA (SMAP, GPM, POWER)</div>
+    </header>
+
+    <!-- Grille principale : CSS place les informations de parcelle et les décisions à gauche, les graphiques à droite. -->
+    <div class="dashboard-grid">
+      <div>
+        <!-- Carte de parcelle : la carte SVG est statique; app.js insère les dernières mesures dans #reads. -->
+        <div class="card">
+          <div class="card-title">Parcelle active</div>
+          <div class="parcel-info">
+            <div>
+              <div class="parcel-name">Parcelle Alpha — Riz</div>
+              <div class="parcel-location">Région de Kara, Togo (1,2 ha)</div>
+            </div>
+            <span class="tag">Croissance (J+42)</span>
+          </div>
+          <div class="map">
+            <svg viewBox="0 0 360 230" role="img" aria-label="Une parcelle dans une maille satellite SMAP">
+              <defs>
+                <pattern id="rows" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-8)">
+                  <rect width="8" height="8" fill="#10B98133" />
+                  <line y2="8" stroke="#10B981" stroke-width="2" />
+                </pattern>
+              </defs>
+              <rect
+                x="10"
+                y="10"
+                width="340"
+                height="210"
+                rx="6"
+                fill="#F59E0B14"
+                stroke="#F59E0B"
+                stroke-width="2"
+                stroke-dasharray="9 6"
+              />
+              <text x="22" y="34" font-weight="600">Maille satellite SMAP</text>
+              <polygon points="140,92 208,82 218,142 148,154" fill="url(#rows)" stroke="#10B981" stroke-width="2.5" />
+              <circle class="ping" cx="180" cy="118" r="7" fill="none" stroke="#F3F4F6" stroke-width="2" />
+              <circle cx="180" cy="118" r="6" fill="#F3F4F6" />
+              <text x="228" y="86" font-weight="600">Votre parcelle</text>
+              <text x="232" y="134">Capteur</text>
+              <line x1="188" y1="118" x2="228" y2="130" stroke="#9CA3AF" />
+            </svg>
+          </div>
+          <p class="note">Le satellite voit une maille entière. Le capteur voit votre parcelle.</p>
+          <div class="metrics-grid" id="reads"></div>
+        </div>
+
+        <!-- Carte de décisions : les contrôles in-sol, in-t et in-pl alimentent afficherDecision() dans app.js. -->
+        <div class="card">
+          <div class="card-title">
+            <span>Décisions prioritaires (48 h)</span><small>Moteur à règles explicables</small>
+          </div>
+          <div class="sim">
+            <label
+              >Humidité du sol <output id="o-sol"></output><input id="in-sol" type="range" min="30" max="100" step="1"
+            /></label>
+            <label
+              >Température <output id="o-t"></output><input id="in-t" type="range" min="25" max="40" step="0.1"
+            /></label>
+            <label class="chk"><input id="in-pl" type="checkbox" checked /> Pluie annoncée demain</label>
+          </div>
+          <!-- Ces identifiants sont mis à jour par JavaScript; les classes warning/danger changent leur couleur CSS. -->
+          <div class="alert-card" id="a-irr">
+            <div class="alert-header">
+              <span class="alert-type">Irrigation</span><span class="alert-time">Prochaines 24 h</span>
+            </div>
+            <div class="alert-action" id="dd"></div>
+            <div class="gauge"><i id="g1"></i><b style="left: 70%"></b></div>
+            <div class="gl"><span>0 %</span><span>Seuil riz 70 %</span><span>100 %</span></div>
+            <ul class="why" id="why"></ul>
+            <div class="alert-reason" id="rule"></div>
+          </div>
+          <div class="alert-card warning" id="a-st">
+            <div class="alert-header">
+              <span class="alert-type">Stress de la culture</span><span class="alert-time">Sous 48 h</span>
+            </div>
+            <div class="alert-action" id="h-st"></div>
+            <div class="gauge"><i id="g2"></i><b style="left: 75%"></b></div>
+            <div class="gl"><span>20 °C</span><span>Seuil riz 35 °C</span><span>40 °C</span></div>
+            <div class="alert-reason" id="p-st"></div>
+          </div>
+          <div class="alert-card info">
+            <div class="alert-header">
+              <span class="alert-type">Rotation</span><span class="alert-time">Prochaine saison</span>
+            </div>
+            <div class="alert-action">Riz, puis soja.</div>
+            <div class="alert-reason">
+              <b>Plan de cultures :</b> le soja fixe l’azote et prépare le sol. Autres cultures prévues : maïs, sorgho,
+              tomate, igname, manioc.
+            </div>
+          </div>
+          <p class="pitch">Les capteurs et la NASA donnent les faits. L’IA choisit l’action et l’explique.</p>
+        </div>
+      </div>
+
+      <div>
+        <!-- Carte de comparaison : app.js crée les graphiques; les boutons radio choisissent la mesure affichée. -->
+        <div class="card">
+          <div class="card-title">Comparaison capteur local et satellite NASA (14 jours)</div>
+          <p class="note" id="sub" style="margin-bottom: 14px"></p>
+          <!-- Les radios restent accessibles au clavier; CSS masque leur apparence et met en évidence leur label actif. -->
+          <input class="v" type="radio" name="m" id="m-hum" aria-label="Humidité du sol" checked />
+          <input class="v" type="radio" name="m" id="m-temp" aria-label="Température" />
+          <input class="v" type="radio" name="m" id="m-rain" aria-label="Pluie" />
+          <div class="seg">
+            <label for="m-hum">Humidité du sol</label><label for="m-temp">Température</label
+            ><label for="m-rain">Pluie</label>
+          </div>
+          <!-- Le clic lance chargerNasa(); #msg affiche l’état de la requête et #charts reçoit les graphiques. -->
+          <button id="live" class="btn" type="button">Charger les données NASA POWER en direct</button
+          ><span id="msg" class="note" role="status"></span>
+          <div class="charts" id="charts"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Pied de page -->
+    <footer>
+      Capteur et mesures de démonstration. Sources : données ouvertes NASA (SMAP, GPM, POWER). Réact+ n’est pas affilié
+      à la NASA.
+    </footer>
+    <!-- Le script est chargé après le HTML pour pouvoir retrouver tous ses identifiants dès le démarrage. -->
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,572 @@
+/* ===== Variables : palette et police ===== */
+:root {
+  --bg-dark: #0b0f17;
+  --bg-card: #131a26;
+  --accent-green: #10b981;
+  --accent-green-glow: rgba(16, 185, 129, 0.2);
+  --accent-blue: #3b82f6;
+  --accent-orange: #f59e0b;
+  --accent-red: #ef4444;
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --border-color: #2d3748;
+  --font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+}
+/* ===== Base ===== */
+/* Réinitialise les marges, puis applique la palette générale et centre le tableau de bord. */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: var(--bg-dark);
+  color: var(--text-main);
+  font-family: var(--font-family);
+  line-height: 1.5;
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.v {
+  /* Les radios restent dans le parcours clavier; leurs labels visibles servent de commandes. */
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+/* ===== En-tête ===== */
+/* Ces règles stylent le logo, son image et le badge de source NASA déclarés dans index.html. */
+header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 32px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+  color: #fff;
+  font-weight: 800;
+  font-size: 22px;
+  padding: 7px 13px 7px 9px;
+  border-radius: 8px;
+}
+.brand-image {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+.brand-title h1 {
+  font-size: 20px;
+  font-weight: 700;
+}
+.brand-title p {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.nasa-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.nasa-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent-blue);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent-blue);
+}
+/* ===== Grille et cartes ===== */
+/* Le point de rupture empile les colonnes sur les écrans plus étroits. */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+  gap: 24px;
+  align-items: start;
+}
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.card-title {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.card-title small {
+  font-size: 11px;
+  color: var(--accent-green);
+  text-transform: none;
+  letter-spacing: 0;
+}
+/* ===== Colonne gauche : parcelle ===== */
+/* Le JavaScript injecte les cartes de mesures dans #reads en réutilisant ces styles. */
+.parcel-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.parcel-name {
+  font-size: 22px;
+  font-weight: 700;
+}
+.parcel-location {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.tag {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--accent-green);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--accent-green);
+  white-space: nowrap;
+}
+/* ===== Carte de la parcelle dans la maille satellite ===== */
+/* Les styles .map s'appliquent au SVG de la parcelle écrit directement dans index.html. */
+.map {
+  background: var(--bg-dark);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 6px;
+}
+.map svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.map text {
+  font-size: 13px;
+  fill: var(--text-main);
+}
+.ping {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ping 2.4s ease-out infinite;
+}
+@keyframes ping {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+.note {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+/* ===== Cartes de mesures ===== */
+/* .metric-box et ses éléments internes sont générés par afficherMesures() dans app.js. */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+@media (max-width: 560px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.metric-box {
+  background: var(--bg-dark);
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+.metric-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 4px;
+}
+.metric-value {
+  font-size: 24px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.metric-unit {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+.metric-source {
+  font-size: 11px;
+  color: var(--accent-blue);
+  margin-top: 6px;
+  display: block;
+}
+/* ===== Simulateur de mesures ===== */
+/* Les curseurs et la case de pluie lisent leurs valeurs dans afficherDecision(). */
+.sim {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  background: var(--bg-dark);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+.sim label {
+  display: grid;
+  gap: 6px;
+  color: var(--text-muted);
+}
+.sim output {
+  color: var(--accent-green);
+  font-weight: 700;
+}
+.sim input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent-green);
+}
+.sim .chk {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+/* ===== Alertes de décision ===== */
+/* app.js ajoute warning ou danger selon les seuils; --c colore titres, jauges et repères associés. */
+.alert-card {
+  --c: var(--accent-green);
+  background: linear-gradient(
+    90deg,
+    var(--accent-green-glow) 0%,
+    var(--bg-card) 100%
+  );
+  padding: 16px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 16px;
+}
+.alert-card.warning {
+  --c: var(--accent-orange);
+  background: linear-gradient(
+    90deg,
+    rgba(245, 158, 11, 0.12) 0%,
+    var(--bg-card) 100%
+  );
+}
+.alert-card.danger {
+  --c: var(--accent-red);
+  background: linear-gradient(
+    90deg,
+    rgba(239, 68, 68, 0.14) 0%,
+    var(--bg-card) 100%
+  );
+}
+.alert-card.info {
+  --c: var(--accent-blue);
+  background: linear-gradient(
+    90deg,
+    var(--accent-blue-glow, rgba(59, 130, 246, 0.15)) 0%,
+    var(--bg-card) 100%
+  );
+}
+.alert-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.alert-type {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--c);
+}
+.alert-time {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.alert-action {
+  font-size: clamp(19px, 2.2vw, 24px);
+  line-height: 1.2;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.alert-reason {
+  /* Contient l'explication de la règle calculée et injectée dans les alertes par app.js. */
+  font-size: 13px;
+  color: var(--text-muted);
+  background: rgba(0, 0, 0, 0.25);
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+.alert-reason b {
+  color: var(--text-main);
+}
+.why {
+  /* Liste de facteurs construite par app.js à partir du capteur et des prévisions. */
+  list-style: none;
+  display: grid;
+  gap: 6px;
+  margin: 12px 0;
+  font-size: 14px;
+}
+.why li {
+  padding-left: 12px;
+  border-left: 2px solid var(--c);
+}
+/* ===== Jauges ===== */
+/* app.js règle la largeur de #g1 et #g2; le repère blanc indique le seuil de décision. */
+.gauge {
+  position: relative;
+  height: 10px;
+  background: var(--border-color);
+  border-radius: 5px;
+  margin: 14px 0 6px;
+}
+.gauge i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--c);
+  border-radius: 5px;
+  transition: width 0.25s;
+}
+.gauge b {
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  width: 3px;
+  background: var(--text-main);
+  border-radius: 2px;
+}
+.gl {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+/* ===== Phrase de pitch ===== */
+.pitch {
+  font-size: clamp(17px, 2vw, 22px);
+  font-weight: 600;
+  line-height: 1.3;
+  max-width: 42ch;
+  margin: 8px 0 0;
+}
+/* ===== Colonne droite : sélecteur de mesure et bouton NASA ===== */
+/* Les sélecteurs radio placés avant .seg pilotent visuellement les labels avec le combinateur ~. */
+.seg {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.seg label {
+  padding: 8px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg-dark);
+}
+#m-hum:checked ~ .seg label[for="m-hum"],
+#m-temp:checked ~ .seg label[for="m-temp"],
+#m-rain:checked ~ .seg label[for="m-rain"] {
+  background: var(--accent-green-glow);
+  border-color: var(--accent-green);
+  color: var(--text-main);
+}
+#m-hum:focus-visible ~ .seg label[for="m-hum"],
+#m-temp:focus-visible ~ .seg label[for="m-temp"],
+#m-rain:focus-visible ~ .seg label[for="m-rain"] {
+  outline: 3px solid var(--accent-orange);
+  outline-offset: 2px;
+}
+.btn {
+  /* Le bouton #live déclenche la requête NASA POWER enregistrée dans app.js. */
+  font: 600 14px var(--font-family);
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--accent-blue);
+  background: rgba(59, 130, 246, 0.12);
+  color: var(--text-main);
+  cursor: pointer;
+  margin: 0 12px 16px 0;
+}
+.btn:hover {
+  background: var(--accent-blue);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+/* ===== Graphiques : courbes, écart, statistiques ===== */
+/* app.js génère .chart; les règles suivantes n'affichent que celle liée au radio sélectionné. */
+.chart {
+  display: none;
+}
+#m-hum:checked ~ .charts .c-hum,
+#m-temp:checked ~ .charts .c-temp,
+#m-rain:checked ~ .charts .c-rain {
+  display: block;
+}
+.legend {
+  /* Les classes k.s, k.g et k.h correspondent aux séries et à l'écart du graphique. */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.k::before {
+  content: "";
+  display: inline-block;
+  width: 22px;
+  height: 4px;
+  border-radius: 2px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.k.s::before {
+  background: var(--accent-green);
+}
+.k.g::before {
+  background: var(--accent-orange);
+}
+.k.h::before {
+  height: 12px;
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(243, 244, 246, 0.5) 0 2px,
+    rgba(245, 158, 11, 0.15) 2px 5px
+  );
+}
+.plot {
+  /* Permet de faire défiler les SVG larges sur mobile sans élargir toute la page. */
+  position: relative;
+  overflow-x: auto;
+}
+.plot svg {
+  width: 100%;
+  min-width: 560px;
+  height: auto;
+  display: block;
+}
+.plot text {
+  font-size: 12px;
+  fill: var(--text-muted);
+}
+.plot text[font-weight] {
+  fill: var(--text-main);
+}
+.cur {
+  stroke: var(--text-main);
+  stroke-dasharray: 3 3;
+}
+.tip {
+  display: none;
+  position: absolute;
+  top: 6px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  background: var(--text-main);
+  color: var(--bg-dark);
+  font-size: 12px;
+  line-height: 1.4;
+  padding: 6px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+.cap {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 14px 0 2px;
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+}
+.stats dt {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.stats dd {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent-green);
+}
+.stats div + div dd {
+  color: var(--accent-blue);
+}
+.stats div + div + div dd {
+  color: var(--text-main);
+}
+.read {
+  /* Encadre la phrase de synthèse générée pour chaque mesure par blocGraphique(). */
+  margin-top: 14px;
+  font-size: 14px;
+  border: 1px solid #000;
+  border-radius: 6px;
+  background: #46564d;
+  padding: 12px;
+  color: var(--text-main);
+}
+/* ===== Pied de page ===== */
+footer {
+  font-size: 12px;
+  color: var(--text-muted);
+  padding: 4px 0 24px;
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Respecte le réglage système qui demande de limiter les animations. */
+  .ping {
+    animation: none;
+  }
+  .gauge i {
+    transition: none;
+  }
+}

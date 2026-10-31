@@ -561,6 +561,114 @@ footer {
   color: var(--text-muted);
   padding: 4px 0 24px;
 }
+/* Ajustements pour tablettes : réduire les espacements tout en gardant la grille empilée. */
+@media (max-width: 768px) {
+  body {
+    padding: 16px;
+  }
+  .dashboard-grid {
+    gap: 16px;
+  }
+  .card {
+    padding: 18px;
+  }
+  .brand-title h1 {
+    font-size: 18px;
+  }
+}
+/* Ajustements pour téléphones : éviter les débordements et faciliter la lecture tactile. */
+@media (max-width: 560px) {
+  body {
+    padding: 12px;
+  }
+  header {
+    gap: 12px;
+    padding-bottom: 18px;
+    margin-bottom: 22px;
+  }
+  .brand {
+    width: 100%;
+    min-width: 0;
+    gap: 10px;
+  }
+  .brand-logo {
+    gap: 7px;
+    padding: 6px 10px 6px 7px;
+    font-size: 19px;
+  }
+  .brand-image {
+    width: 32px;
+    height: 32px;
+  }
+  .brand-title {
+    min-width: 0;
+  }
+  .brand-title h1 {
+    font-size: 17px;
+    line-height: 1.25;
+  }
+  .brand-title p {
+    font-size: 12px;
+  }
+  .nasa-badge {
+    max-width: 100%;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+  }
+  .card {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  .parcel-info {
+    flex-direction: column;
+  }
+  .tag {
+    align-self: flex-start;
+    white-space: normal;
+  }
+  .alert-header {
+    flex-wrap: wrap;
+    gap: 4px 12px;
+  }
+  .gl {
+    gap: 4px;
+    font-size: 11px;
+  }
+  .seg {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .seg label {
+    padding: 8px 4px;
+    font-size: 12px;
+    text-align: center;
+  }
+  .btn {
+    width: 100%;
+    margin-right: 0;
+  }
+  .stats {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-top: 14px;
+    padding-top: 12px;
+    text-align: left;
+  }
+  .stats div {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .stats dd {
+    text-align: right;
+  }
+  .read {
+    overflow-wrap: anywhere;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   /* Respecte le réglage système qui demande de limiter les animations. */
   .ping {
